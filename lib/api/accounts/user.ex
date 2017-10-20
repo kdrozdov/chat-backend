@@ -5,6 +5,8 @@ defmodule Api.Accounts.User do
 
 
   schema "users" do
+    many_to_many :rooms, Api.Chat.Room, join_through: "user_rooms"
+
     field :username, :string
     field :email, :string
     field :password_hash, :string

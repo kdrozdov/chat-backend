@@ -4,6 +4,9 @@ defmodule ApiWeb.UserController do
   alias Api.Accounts
   alias Api.Accounts.User
 
+  plug Guardian.Plug.EnsureAuthenticated,
+        [handler: ApiWeb.SessionController] when action in [:rooms]
+
   action_fallback ApiWeb.FallbackController
 
   def create(conn, %{"user" => user_params}) do
@@ -15,5 +18,11 @@ defmodule ApiWeb.UserController do
       |> put_status(:created)
       |> render(ApiWeb.SessionView, "show.json", user: user, jwt: jwt)
     end
+  end
+
+  def rooms(conn, _params) do
+    current_user = Guardian.Plug.current_resource(conn)
+    rooms = Accounts.list_user_rooms(current_user)
+    render(conn, ApiWeb.RoomView, "index.json", %{rooms: rooms})
   end
 end

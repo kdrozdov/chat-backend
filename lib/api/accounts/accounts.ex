@@ -2,11 +2,11 @@ defmodule Api.Accounts do
   @moduledoc """
   The Accounts context.
   """
-
   import Ecto.Query, warn: false
   alias Api.Repo
 
   alias Api.Accounts.User
+  alias Api.Accounts.UserRoom
 
   @doc """
   Returns the list of users.
@@ -100,5 +100,15 @@ defmodule Api.Accounts do
   """
   def change_user(%User{} = user) do
     User.changeset(user, %{})
+  end
+
+  def create_user_room(attrs \\ %{}) do
+    %UserRoom{}
+      |> UserRoom.changeset(attrs)
+      |> Repo.insert()
+  end
+
+  def list_user_rooms(user) do
+    Repo.all(Ecto.assoc(user, :rooms))
   end
 end

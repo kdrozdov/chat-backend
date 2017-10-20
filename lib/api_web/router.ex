@@ -15,5 +15,9 @@ defmodule ApiWeb.Router do
     delete "/sessions", SessionController, :delete
     post "/sessions/refresh", SessionController, :refresh
     resources "/users", UserController, only: [:create]
+
+    get "/users/:id/rooms", UserController, :rooms
+    resources "/rooms", RoomController, only: [:index, :create]
+    post "/rooms/:id/join", RoomController, :join
   end
 end
