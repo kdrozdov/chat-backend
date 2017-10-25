@@ -7,6 +7,7 @@ defmodule Api.Chat do
   alias Api.Repo
 
   alias Api.Chat.Room
+  alias Api.Chat.Message
 
   @doc """
   Returns the list of rooms.
@@ -100,5 +101,20 @@ defmodule Api.Chat do
   """
   def change_room(%Room{} = room) do
     Room.changeset(room, %{})
+  end
+
+  def room_messages(room_id, page \\ 1) do
+    Message
+      |> where([m], m.room_id == ^room_id)
+      |> order_by([desc: :inserted_at, desc: :id])
+      |> preload(:user)
+      |> Api.Repo.paginate(page: page)
+  end
+
+  def create_message(room, user, attrs) do
+    room
+      |> Ecto.build_assoc(:messages, user_id: user.id)
+      |> Message.changeset(attrs)
+      |> Repo.insert()
   end
 end

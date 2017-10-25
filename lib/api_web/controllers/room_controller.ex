@@ -17,7 +17,7 @@ defmodule ApiWeb.RoomController do
     current_user = Guardian.Plug.current_resource(conn)
 
     with {:ok, %Room{} = room} <- Chat.create_room(room_params) do
-      result = Accounts.create_user_room(%{
+      Accounts.create_user_room(%{
         user_id: current_user.id,
         room_id: room.id
       })

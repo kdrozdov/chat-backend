@@ -1,7 +1,7 @@
 defmodule ApiWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :api
 
-  # socket "/socket", ApiWeb.UserSocket
+  socket "/socket", ApiWeb.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #

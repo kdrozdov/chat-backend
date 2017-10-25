@@ -42,7 +42,9 @@ defmodule Api.Mixfile do
       {:bcrypt_elixir, "~> 1.0"},
       {:comeonin, "~> 4.0"},
       {:guardian, "~> 0.14"},
-      {:cors_plug, "~> 1.2"}
+      {:cors_plug, "~> 1.2"},
+      {:scrivener_ecto, "~> 1.0"},
+      {:timex, "~> 3.1"}
     ]
   end
 

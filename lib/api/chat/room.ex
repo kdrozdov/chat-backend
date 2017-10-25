@@ -5,9 +5,10 @@ defmodule Api.Chat.Room do
 
 
   schema "rooms" do
+    many_to_many :users, Api.Accounts.User, join_through: "user_rooms"
+    has_many :messages, Api.Chat.Message
     field :name, :string
     field :topic, :string
-    many_to_many :users, Api.Accounts.User, join_through: "user_rooms"
 
     timestamps()
   end
