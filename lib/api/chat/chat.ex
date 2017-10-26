@@ -111,6 +111,15 @@ defmodule Api.Chat do
       |> Api.Repo.paginate(page: page)
   end
 
+  def previous_messages(room_id, last_seen_id) do
+    Message
+      |> where([m], m.room_id == ^room_id)
+      |> where([m], m.id < ^last_seen_id)
+      |> order_by([desc: :inserted_at, desc: :id])
+      |> preload(:user)
+      |> Api.Repo.paginate()
+  end
+
   def create_message(room, user, attrs) do
     room
       |> Ecto.build_assoc(:messages, user_id: user.id)

@@ -2,6 +2,16 @@ defmodule ApiWeb.MessageView do
   use ApiWeb, :view
   alias ApiWeb.MessageView
 
+  require Logger
+
+  def render("index.json", %{messages: messages, pagination: pagination}) do
+    Logger.info(inspect messages)
+    %{
+      data: render_grouped(messages, []),
+      pagination: pagination
+    }
+  end
+
   def render("message.json", %{message: message}) do
     date_key = message.inserted_at
       |> Timex.to_date
@@ -24,7 +34,7 @@ defmodule ApiWeb.MessageView do
     fdate = formatDate(date)
     json = render_many(values, MessageView, "message.json")
 
-    render_grouped(messages, Map.put(result, fdate, json))
+    render_grouped(messages, [%{ date: fdate, values: json } | result])
   end
 
   def render_grouped([], result), do: result
