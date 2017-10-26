@@ -1,7 +1,7 @@
 defmodule ApiWeb.UserSocket do
   use Phoenix.Socket
 
-  transport :websocket, Phoenix.Transports.WebSocket
+  transport :websocket, Phoenix.Transports.WebSocket, timeout: 45_000
   channel "rooms:*", ApiWeb.RoomChannel
 
   def connect(%{"token" => token}, socket) do
