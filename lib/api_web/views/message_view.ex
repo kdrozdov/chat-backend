@@ -37,7 +37,7 @@ defmodule ApiWeb.MessageView do
     render_grouped(messages, [%{ date: fdate, values: json } | result])
   end
 
-  def render_grouped([], result), do: result
+  def render_grouped([], result), do: Enum.reverse(result)
 
   defp formatDate(date) do
     today = Timex.today
