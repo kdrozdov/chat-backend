@@ -44,7 +44,8 @@ defmodule Api.Mixfile do
       {:guardian, "~> 0.14"},
       {:cors_plug, "~> 1.2"},
       {:scrivener_ecto, "~> 1.0"},
-      {:timex, "~> 3.1"}
+      {:timex, "~> 3.1"},
+      {:html_sanitize_ex, "~> 1.3.0-rc3"}
     ]
   end
 

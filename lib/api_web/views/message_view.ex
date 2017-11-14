@@ -2,10 +2,7 @@ defmodule ApiWeb.MessageView do
   use ApiWeb, :view
   alias ApiWeb.MessageView
 
-  require Logger
-
   def render("index.json", %{messages: messages, pagination: pagination}) do
-    Logger.info(inspect messages)
     %{
       data: render_grouped(messages, []),
       pagination: pagination

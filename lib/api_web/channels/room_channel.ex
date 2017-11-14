@@ -14,7 +14,7 @@ defmodule ApiWeb.RoomChannel do
       pagination: ApiWeb.PaginationHelpers.pagination(page)
     }
 
-    send(self, :after_join)
+    send(self(), :after_join)
     {:ok, response, assign(socket, :room, room)}
   end
 

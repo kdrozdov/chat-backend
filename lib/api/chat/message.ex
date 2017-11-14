@@ -3,7 +3,6 @@ defmodule Api.Chat.Message do
   import Ecto.Changeset
   alias Api.Chat.Message
 
-
   schema "messages" do
     field :text, :string
     belongs_to :room, Api.Chat.Room
@@ -16,7 +15,8 @@ defmodule Api.Chat.Message do
   @doc false
   def changeset(%Message{} = message, attrs) do
     message
-    |> cast(attrs, [:text, :user_id, :room_id])
-    |> validate_required([:text, :user_id, :room_id])
+      |> cast(attrs, [:text, :user_id, :room_id])
+      |> validate_required([:text, :user_id, :room_id])
+      |> update_change(:text, &HtmlSanitizeEx.strip_tags/1)
   end
 end
