@@ -112,9 +112,10 @@ defmodule Api.Chat do
   end
 
   def previous_messages(room_id, last_seen_id) do
+    last = Repo.get!(Message, last_seen_id)
     Message
       |> where([m], m.room_id == ^room_id)
-      |> where([m], m.id < ^last_seen_id)
+      |> where([m], m.inserted_at < ^last.inserted_at)
       |> order_by([desc: :inserted_at, desc: :id])
       |> preload(:user)
       |> Api.Repo.paginate()
