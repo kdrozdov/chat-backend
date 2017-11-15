@@ -32,6 +32,18 @@ defmodule ApiWeb.RoomChannel do
     end
   end
 
+  def handle_in("update_topic", params, socket) do
+    room = socket.assigns.room
+
+    case Api.Chat.update_room(room, params) do
+      {:ok, room} ->
+        broadcast!(socket, "topic_updated", %{topic: room.topic})
+        {:reply, :ok, socket}
+      {:error, changeset} ->
+        {:reply, {:error, Phoenix.View.render(ApiWeb.ChangesetView, "error.json", changeset: changeset)}, socket}
+    end
+  end
+
   def handle_info(:after_join, socket) do
     user = socket.assigns.current_user
     Presence.track(socket, user.id, %{
@@ -40,7 +52,6 @@ defmodule ApiWeb.RoomChannel do
     push(socket, "presence_state", Presence.list(socket))
     {:noreply, socket}
   end
-
 
   def terminate(_reason, socket) do
     {:ok, socket}
