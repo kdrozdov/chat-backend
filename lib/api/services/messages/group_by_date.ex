@@ -3,7 +3,11 @@ defmodule Api.Services.Messages.GroupByDate do
     messages
       |> Enum.group_by(&messageDate/1)
       |> Enum.map(fn {k, v} -> [k, Enum.reverse(v)] end)
-      |> Enum.sort(fn (g1, g2) -> hd(g1) >= hd(g2) end)
+      |> Enum.sort(&sort/2)
+  end
+
+  defp sort(m1, m2) do
+    Timex.Comparable.compare(hd(m1), hd(m2)) >= 0
   end
 
   defp messageDate(message) do
