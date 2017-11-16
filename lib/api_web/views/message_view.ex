@@ -1,6 +1,7 @@
 defmodule ApiWeb.MessageView do
   use ApiWeb, :view
   alias ApiWeb.MessageView
+  alias Api.Services.Md5
 
   def render("index.json", %{messages: messages, pagination: pagination}) do
     %{
@@ -20,7 +21,7 @@ defmodule ApiWeb.MessageView do
       text: message.text,
       key: date_key,
       user: %{
-        email: message.user.email,
+        email_hash: message.user.email |> Md5.process,
         username: message.user.username
       }
     }
